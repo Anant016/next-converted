@@ -202,7 +202,7 @@ export default class Index extends React.Component {
       List = this.state.data.map((item) => (
         <ItemBox key={item.name} item={item} />
       ));
-    } else if (inData.length > 0) {
+    } else if (inData && inData.length > 0) {
       List = inData.map((item) => <ItemBox key={item.name} item={item} />);
     } else {
       {
@@ -273,7 +273,10 @@ export default class Index extends React.Component {
                         className="rounded-pill border border-danger ml-2"
                       >
                         <span className="ml-2 mr-2">
-                          {inData.length} offers
+                          {this.state.data == null && inData
+                            ? inData.length
+                            : this.state.data.length}{" "}
+                          offers
                         </span>
                       </span>
                     </a>

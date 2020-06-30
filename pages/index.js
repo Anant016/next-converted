@@ -30,8 +30,8 @@ export default class Index extends React.Component {
   };
   static async getInitialProps({}) {
     let daata = [];
-    var ref = await db1.ref("referrals");
-    ref.on(
+    var ref = db1.ref("referrals");
+    await ref.on(
       "value",
       function (snapshot) {
         daata.push(snapshot.val());
@@ -163,7 +163,6 @@ export default class Index extends React.Component {
     if (this.props.data[0] != null && this.props.data[0] != undefined) {
       inData = this.props.data[0];
     }
-    console.log(inData);
     const menu = (
       <Menu>
         <Menu.Item>
@@ -201,22 +200,18 @@ export default class Index extends React.Component {
 
     let List = "";
 
-    if (this.state.data != null) {
-      List = this.state.data.map((item) => (
-        <ItemBox key={item.name} item={item} />
-      ));
-    } else if (
-      inData &&
-      inData != null &&
-      inData != undefined &&
-      inData.length > 0
-    ) {
-      List = inData.map((item) => <ItemBox key={item.name} item={item} />);
-    } else {
-      {
-        List = <h4 className="mt-5">Loading...</h4>;
+    if (this.state.data == null && inData)
+      if (this.state.data != null) {
+        List = this.state.data.map((item) => (
+          <ItemBox key={item.name} item={item} />
+        ));
+      } else if (inData.length >= 0) {
+        List = inData.map((item) => <ItemBox key={item.name} item={item} />);
+      } else {
+        {
+          List = <h4 className="mt-5">Loading...</h4>;
+        }
       }
-    }
 
     return (
       <div>
@@ -227,7 +222,7 @@ export default class Index extends React.Component {
               rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
               integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-              crossorigin="anonymous"
+              crossOrigin="anonymous"
             />
             <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
             <meta
@@ -281,8 +276,7 @@ export default class Index extends React.Component {
                         className="rounded-pill border border-danger ml-2"
                       >
                         <span className="ml-2 mr-2">
-                          {this.state.data == null &&
-                          (inData != null || inData != undefined)
+                          {this.state.data == null
                             ? inData.length
                             : this.state.data.length}{" "}
                           offers

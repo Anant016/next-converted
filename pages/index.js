@@ -159,7 +159,10 @@ export default class Index extends React.Component {
   }
 
   render() {
-    let inData = this.props.data[0];
+    let inData = [];
+    if (this.props.data[0] != null && this.props.data[0] != undefined) {
+      inData = this.props.data[0];
+    }
     console.log(inData);
     const menu = (
       <Menu>
@@ -202,7 +205,12 @@ export default class Index extends React.Component {
       List = this.state.data.map((item) => (
         <ItemBox key={item.name} item={item} />
       ));
-    } else if (inData && inData.length > 0) {
+    } else if (
+      inData &&
+      inData != null &&
+      inData != undefined &&
+      inData.length > 0
+    ) {
       List = inData.map((item) => <ItemBox key={item.name} item={item} />);
     } else {
       {
@@ -273,7 +281,8 @@ export default class Index extends React.Component {
                         className="rounded-pill border border-danger ml-2"
                       >
                         <span className="ml-2 mr-2">
-                          {this.state.data == null && inData
+                          {this.state.data == null &&
+                          (inData != null || inData != undefined)
                             ? inData.length
                             : this.state.data.length}{" "}
                           offers
